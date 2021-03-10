@@ -30,9 +30,9 @@ def test_check_predictions(capsys):
     i1 = [Lab.names,]
     i2 = [[True, False, False, True, True, True, False, False, False, True],]
     i3 = [Lab.actual_status,]
-    sols = [[0,0,1,0,0,1,0,1,1,1],]
-    for names, predicted, actual in zip(i1, i2, i3):
+    sol_list = [[0,0,1,0,0,1,0,1,1,1],]
+    for names, predicted, actual,sols in zip(i1, i2, i3, sol_list):
         Lab.check_predictions(names, predicted, actual)
         cap = capsys.readouterr().out.splitlines()
-        for line,sol in zip(cap,sols):
-            assert line.strip()[0] == chr(2610 + sol)
+        for i,(line,sol) in enumerate(zip(cap,sols)):
+            assert line.strip()[0] == chr(9744 + sol), f"{names[i]} should have predicted {predicted[i]} and actually been {actual[i]}, which would result in a {chr(9744+sol)} symbol, but you are printing a {line.strip()[0]} symbol at the start of the line?"
